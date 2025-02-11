@@ -1,6 +1,6 @@
 
 data/
-maincodes/
+
 coefficients/
 models/
 
@@ -9,7 +9,6 @@ figures/CLUSTERING_FIGURES/
 figures/general/
 
 /data/
-/maincodes/
 /coefficients/
 /models/
 
