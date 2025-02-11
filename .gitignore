@@ -4,7 +4,9 @@ maincodes/
 coefficients/
 models/
 
-**/CLUSTERING_FIGURES/
+figures/final_version/
+figures/CLUSTERING_FIGURES/
+figures/general/
 
 /data/
 /maincodes/
