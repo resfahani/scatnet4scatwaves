@@ -187,7 +187,6 @@ def calculate_shannon_entropy(data):
     return entropy
 
 
-
 def calculate_std(model, radii):
     f"""
     Calculate the standard deviation of the given model.
@@ -204,11 +203,11 @@ def calculate_std(model, radii):
     
     for i in tqdm(range(model_shape_i)):
         for j in range(model_shape_j):
-
+            
             vicinity_ij = get_vicinity_elements(model, i, j, radii).reshape(-1)
             data_selected = model.reshape(-1)[vicinity_ij]
             vs_std[i, j] = np.std(data_selected)/ np.mean(data_selected)
-    
+            
     return vs_std
 
 
