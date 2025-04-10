@@ -11,7 +11,6 @@ from scipy.signal import butter, sosfiltfilt
 
 import numpy as np
 
-
 def _nhood_search(umap_object, nhood_size):
     if hasattr(umap_object, "_small_data") and umap_object._small_data:
         dmat = sklearn.metrics.pairwise_distances(umap_object._raw_data)
@@ -30,27 +29,7 @@ def _nhood_search(umap_object, nhood_size):
 
 
 def calculate_local_dimension(model, data=None, n_neighbors=None, threshold=0.7, n_comp=3):
-    """
-    Calculate the local dimensionality and the first three principal components of the data.
 
-    Parameters:
-    model : object
-        The model object containing the data and the k-nearest neighbors search index.
-    data : array-like, optional
-        The data for which to calculate the local dimensionality. If None, the model's raw data is used.
-    n_neighbors : int, optional
-        The number of neighbors to use in the k-nearest neighbors search. If None, the model's default is used.
-    threshold : float, optional
-        The threshold for the cumulative explained variance ratio to determine the local dimensionality. Default is 0.7.
-    n_comp : int, optional
-        The number of principal components to return. Default is 3.
-
-    Returns:
-    local_dim : ndarray
-        An array containing the local dimensionality for each data point.
-    three_comp : ndarray
-        An array containing the first three principal components for each data point.
-    """
 
     if data is None:
         data = model._raw_data
@@ -72,18 +51,6 @@ def calculate_local_dimension(model, data=None, n_neighbors=None, threshold=0.7,
 
 
 def get_vicinity_elements(matrix, row, col, radius=1):
-    """
-    Returns the elements around a given index in a matrix within specified start and end radii.
-
-    Parameters:
-    matrix (np.ndarray): The input matrix.
-    row (int): The row index of the target element.
-    col (int): The column index of the target element.
-    radius (int): The radius around the target element to include.
-
-    Returns:
-    np.ndarray: The elements around the target index within the specified radii.
-    """
 
     nrow, ncol = matrix.shape
 
@@ -108,15 +75,7 @@ def get_vicinity_elements(matrix, row, col, radius=1):
 
 
 def calculate_envelope(signal):
-    """
-    Calculate the envelope of a signal using the Hilbert transform.
-    
-    Parameters:
-    signal (numpy.ndarray): Input signal.
-    
-    Returns:
-    numpy.ndarray: Envelope of the input signal.
-    """
+
     analytic_signal = hilbert(signal)
     envelope = np.abs(analytic_signal)
     return envelope
@@ -124,27 +83,7 @@ def calculate_envelope(signal):
 
 
 def calculate_entropy_in_umap(model, data=None, n_neighbors=None, threshold=0.7):
-    """
-    Calculate the local dimensionality and the first three principal components of the data.
 
-    Parameters:
-    model : object
-        The model object containing the data and the k-nearest neighbors search index.
-    data : array-like, optional
-        The data for which to calculate the local dimensionality. If None, the model's raw data is used.
-    n_neighbors : int, optional
-        The number of neighbors to use in the k-nearest neighbors search. If None, the model's default is used.
-    threshold : float, optional
-        The threshold for the cumulative explained variance ratio to determine the local dimensionality. Default is 0.7.
-    n_comp : int, optional
-        The number of principal components to return. Default is 3.
-
-    Returns:
-    local_dim : ndarray
-        An array containing the local dimensionality for each data point.
-    three_comp : ndarray
-        An array containing the first three principal components for each data point.
-    """
 
     if data is None:
         data = model._raw_data
@@ -168,21 +107,9 @@ def calculate_entropy_in_umap(model, data=None, n_neighbors=None, threshold=0.7)
     
 
 def calculate_shannon_entropy(data):
-    """
-    Calculate the Shannon entropy of a dataset.
-
-    Parameters:
-    data (numpy.ndarray): The input data for which to calculate the entropy.
-
-    Returns:
-    float: The Shannon entropy of the input data.
-    """
     
-    # Normalize the data
     data = data / np.sum(data)
-    
-    # Calculate entropy
-    entropy = -np.sum(data * np.log(data + 1e-10))  # Adding a small value to avoid log(0)
+    entropy = -np.sum(data * np.log(data + 1e-10))
     
     return entropy
 
@@ -191,7 +118,7 @@ def calculate_shannon_entropy(data):
 def calculate_std(model, radii):
     f"""
     Calculate the standard deviation of the given model.
-
+    
     Parameters:
     model (numpy.ndarray): The model for which to calculate the standard deviation.
 
@@ -213,7 +140,7 @@ def calculate_std(model, radii):
 
 
 def calculate_local_entropy_in_model(data, modelshape, radii):
-    """
+    f"""
     Calculate the standard deviation of the given model.
 
     Parameters:
@@ -243,7 +170,7 @@ def calculate_local_entropy_in_model(data, modelshape, radii):
 
 
 def calculate_local_dimensionality_in_model(data, modelshape, radii, threshold):
-    """
+    f"""
     Calculate the standard deviation of the given model.
 
     Parameters:
@@ -270,8 +197,8 @@ def calculate_local_dimensionality_in_model(data, modelshape, radii, threshold):
     return local_dim
 
 
-def apply_sosfilter(data, freq, sr, order=10, filter_type='lp'):
-    """
+def apply_sosfilter(data, freq, sr, order=2, filter_type='lp'):
+    f"""
     Apply a second-order sections (SOS) filter to the input data.
 
     Parameters:
@@ -286,6 +213,7 @@ def apply_sosfilter(data, freq, sr, order=10, filter_type='lp'):
     Returns:
     numpy.ndarray: The filtered data.
     """
+    
     if filter_type == 'lp':
         sos = butter(order, freq, 'lp', fs=sr, output='sos')
     elif filter_type == 'hp':
